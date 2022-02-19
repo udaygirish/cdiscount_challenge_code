@@ -1,7 +1,6 @@
-
 # Class method implementation for Multiple Deployment str
 import tensorflow as tf
-from tensorflow import keras 
+from tensorflow import keras
 from src.model import ModelMaker
 from infer_class import InferModel
 import fastapi
@@ -24,12 +23,13 @@ import pandas as pd
 from configs import config
 
 import os
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   # see issue #152
+
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"  # see issue #152
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 # For testing purpose setting model path
-model_path = './models/model-best.h5'
+model_path = "./models/model-best.h5"
 
-infer_model = InferModel(model_path, 'inceptionv3')
+infer_model = InferModel(model_path, "inceptionv3")
 model = infer_model.direct_model_load()
 bson_iterator = BSONIterator
 cdiscount_processor = CDiscountProcessor()
@@ -44,27 +44,30 @@ app.add_middleware(
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"])
+    allow_headers=["*"],
+)
+
 
 @app.get("/")
 def entry_page():
     return "Welcome to the base page of Applied AI Thesis Project Demo - Multi Class Classifcation"
 
+
 @app.post("/predict")
 def predict_class(file: fastapi.UploadFile = fastapi.File(...)):
     t1 = time.time()
-    print("==="*10)
+    print("===" * 10)
     with TemporaryDirectory() as td:
-        filename = 'temp.png'
+        filename = "temp.png"
         image = Image.open(file.file)
-        filepath = Path(td)/filename
-        
+        filepath = Path(td) / filename
+
         print(type(image))
         image.save(filepath)
         print(filepath)
         image = cv2.imread(str(filepath))
         print("Image shape before preprocessing:{}".format(image.shape))
-        image_resized = cv2.resize(image, (180,180), interpolation= cv2.INTER_AREA)
+        image_resized = cv2.resize(image, (180, 180), interpolation=cv2.INTER_AREA)
 
         x = img_to_array(image_resized)
         x = ImageDataGenerator().random_transform(x)
@@ -79,23 +82,25 @@ def predict_class(file: fastapi.UploadFile = fastapi.File(...)):
         for i in output:
             temp = list(i)
             index = temp.index(max(temp))
-            prob = round(max(temp),2)
+            prob = round(max(temp), 2)
             category_id = cdiscount_processor.idx2cat[index]
-            total_row = category_csv.loc[category_csv['category_id']== category_id].to_dict()
+            total_row = category_csv.loc[
+                category_csv["category_id"] == category_id
+            ].to_dict()
             print("OUTPUT:{}".format(total_row))
-            category_l1 = total_row['category_level1'][index]
-            category_l2 = total_row['category_level2'][index]
-            category_l3 =  total_row['category_level3'][index]
-            temp_out = (index,prob,category_id, category_l1, category_l2, category_l3)
+            category_l1 = total_row["category_level1"][index]
+            category_l2 = total_row["category_level2"][index]
+            category_l3 = total_row["category_level3"][index]
+            temp_out = (index, prob, category_id, category_l1, category_l2, category_l3)
             output_list.append(temp_out)
-        
+
     t4 = time.time()
     return {
-        'model_response': str(output_list),
-        'response_time': str(t4-t1),
-        'model_inference_time': str(t3-t2)
+        "model_response": str(output_list),
+        "response_time": str(t4 - t1),
+        "model_inference_time": str(t3 - t2),
     }
 
 
-if __name__ == '__main__':
-    uvicorn.run('model_api:app', host = '0.0.0.0', port = 5001, proxy_headers=True)
+if __name__ == "__main__":
+    uvicorn.run("model_api:app", host="0.0.0.0", port=5001, proxy_headers=True)
