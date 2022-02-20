@@ -3,22 +3,10 @@ import streamlit as st
 from PIL import Image
 
 st.set_page_config(layout="wide")
-# st.title("Applied AI Project - Demo")
 
-# st.sidebar.("Please select any  one of the methods below - Upload Image or Take a Picture")
-# image = st.file_uploader("Choose an Image")
-
-# if st.button('Open Camera'):
-#     image = st.camera_input("Take a picture")
 st.title("Applied AI Project - Demo")
 
-# col1, col2 = st.columns([0.4,0.5])
 
-# with col1:
-
-#     st.write("Please select any  one of the methods below - Upload Image or Take a Picture")
-
-# with col2:
 
 logo_applied_roots = Image.open("./data/webapp_logos/Applied_Roots_logo.png")
 logo_uoh = Image.open("./data/webapp_logos/University_of_Hyderabad_Logo.png")
