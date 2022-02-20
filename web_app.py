@@ -7,7 +7,6 @@ st.set_page_config(layout="wide")
 st.title("Applied AI Project - Demo")
 
 
-
 logo_applied_roots = Image.open("./data/webapp_logos/Applied_Roots_logo.png")
 logo_uoh = Image.open("./data/webapp_logos/University_of_Hyderabad_Logo.png")
 
