@@ -1,14 +1,14 @@
 from typing import Dict
 
 path_dict = {
-    "train_path": "../../cdiscount-image-classification-challenge/train.bson",
-    "test_path": "../../cdiscount-image-classification-challenge/test.bson",
-    "category_path": "../../cdiscount-image-classification-challenge/category_names.csv",
-    "train_images_csv": "./data/train_images.csv",
-    "val_images_csv": "./data/val_images.csv",
-    "train_offsets_csv": "./data/train_offsets.csv",
-    "categories_csv": "./data/categories.csv",
-    "sample_submission_path": "../../cdiscount-image-classification-challenge/sample_submission.csv",
+    "train_path": "../cdiscount-image-classification-challenge/train.bson",
+    "test_path": "../cdiscount-image-classification-challenge/test.bson",
+    "category_path": "../cdiscount-image-classification-challenge/category_names.csv",
+    "train_images_csv": "../cdiscount_challenge_code_local/data/train_images.csv",
+    "val_images_csv": "../cdiscount_challenge_code_local/data/val_images.csv",
+    "train_offsets_csv": "../cdiscount_challenge_code_local/data/train_offsets.csv",
+    "categories_csv": "../cdiscount_challenge_code_local/data/categories.csv",
+    "sample_submission_path": "../cdiscount-image-classification-challenge/sample_submission.csv",
 }
 
 count_dict = {

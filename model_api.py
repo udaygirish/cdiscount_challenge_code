@@ -27,7 +27,7 @@ import os
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"  # see issue #152
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 # For testing purpose setting model path
-model_path = "./models/model-best.h5"
+model_path = "../cdiscount_challenge_code_local/models/model-best.h5"
 
 infer_model = InferModel(model_path, "inceptionv3")
 model = infer_model.direct_model_load()
@@ -78,27 +78,38 @@ def predict_class(file: fastapi.UploadFile = fastapi.File(...)):
         # Direct load API call (Custom TF Serving or TFLITE or TFJS still in implementation)
         output = model.predict(x)
         t3 = time.time()
-        output_list = []
-        for i in output:
-            temp = list(i)
-            index = temp.index(max(temp))
-            prob = round(max(temp), 2)
-            category_id = cdiscount_processor.idx2cat[index]
-            total_row = category_csv.loc[
-                category_csv["category_id"] == category_id
-            ].to_dict()
-            print("OUTPUT:{}".format(total_row))
-            category_l1 = total_row["category_level1"][index]
-            category_l2 = total_row["category_level2"][index]
-            category_l3 = total_row["category_level3"][index]
-            temp_out = (index, prob, category_id, category_l1, category_l2, category_l3)
-            output_list.append(temp_out)
+        output_dict = dict()
+        # for i in range(0,output):
+        temp = list(output[0])
+        print(type(temp))
+        index = temp.index(max(temp))
+        prob = round(max(temp), 2)
+        category_id = cdiscount_processor.idx2cat[index]
+        total_row = category_csv.loc[
+            category_csv["category_id"] == category_id
+        ].to_dict()
+        print("OUTPUT:{}".format(total_row))
+        category_l1 = total_row["category_level1"][index]
+        category_l2 = total_row["category_level2"][index]
+        category_l3 = total_row["category_level3"][index]
+        # temp_out = {i: index, prob, category_id, category_l1, category_l2, category_l3)
+        output_dict = {
+            "category_index": str(index),
+            "confidence": str(prob),
+            "category_id": category_id,
+            "category_l1": category_l1,
+            "category_l2": category_l2,
+            "category_l3": category_l3,
+        }
+        print("====" * 10)
+        print(output_dict)
+        print("====" * 10)
 
     t4 = time.time()
     return {
-        "model_response": str(output_list),
-        "response_time": str(t4 - t1),
-        "model_inference_time": str(t3 - t2),
+        "model_response": output_dict,
+        "response_time": str(round((t4 - t1), 4)) + "s",
+        "model_inference_time": str(round((t3 - t2), 4)) + "s",
     }
 
 
