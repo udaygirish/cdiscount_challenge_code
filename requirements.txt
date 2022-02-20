@@ -1,2 +1,12 @@
 numpy
 tensorflow
+Pillow
+skimage
+keras
+tqdm
+tensorflow-addons
+starlette
+fastapi
+streamlit
+scikit-image
+wandb
