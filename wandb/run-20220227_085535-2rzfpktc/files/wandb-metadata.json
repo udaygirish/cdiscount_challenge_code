@@ -1,0 +1,24 @@
+{
+    "os": "Linux-5.13.0-30-generic-x86_64-with-glibc2.29",
+    "python": "3.8.10",
+    "heartbeatAt": "2022-02-27T03:25:37.078122",
+    "startedAt": "2022-02-27T03:25:35.270770",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 3080 Laptop GPU",
+    "gpu_count": 1,
+    "cpu_count": 16,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "train.py",
+    "codePath": "train.py",
+    "git": {
+        "remote": "https://github.com/udaygirish/cdiscount_challenge_code.git",
+        "commit": "a8efbcc78f4c4afaa4fb50436b2f7511ea9987f4"
+    },
+    "email": "einsteingirish@gmail.com",
+    "root": "/home/udaygirish/Projects/Personal/AppliedRoots_PGAIML/cdiscount_challenge_code",
+    "host": "udaygirish-ROG-Zephyrus-S17-GX703HS",
+    "username": "udaygirish",
+    "executable": "/usr/bin/python3"
+}
