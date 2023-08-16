@@ -1,28 +1,33 @@
-import os, sys, math, io
-import numpy as np
-import pandas as pd
-import multiprocessing as mp
-import bson
-import struct
-
-
-import matplotlib.pyplot as plt
-import skimage.io
-from keras.preprocessing.image import load_img, img_to_array
-from configs import config
-from tqdm import tqdm
-from keras.preprocessing.image import Iterator
-from keras.preprocessing.image import ImageDataGenerator
-from keras import backend as K
-from PIL import Image
-from pymongo import MongoClient
 import io
-import pymongo
-import skimage.io as skio
+import math
+import multiprocessing as mp
+import os
+import struct
+import sys
 import threading
 import time
 from collections import defaultdict
+
+import bson
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import pymongo
+import skimage.io
+import skimage.io as skio
+from keras import backend as K
+from keras.preprocessing.image import (
+    ImageDataGenerator,
+    Iterator,
+    img_to_array,
+    load_img,
+)
+from PIL import Image
+from pymongo import MongoClient
 from tqdm import *
+from tqdm import tqdm
+
+from configs import config
 
 
 class CDiscountProcessor:
@@ -60,7 +65,6 @@ class CDiscountProcessor:
         idx2cat = {}
         i = 0
         for ir in categories_df.itertuples():
-
             category_id = ir[0]
             category_idx = ir[4]
             cat2idx[category_id] = category_idx
@@ -130,7 +134,8 @@ class CDiscountProcessor:
                 # Randomly choose the products that become part of the validation set.
                 val_size = int(len(product_ids) * split_percentage)
                 if val_size > 0:
-                    val_ids = np.random.choice(product_ids, val_size, replace=False)
+                    val_ids = np.random.choice(
+                        product_ids, val_size, replace=False)
                 else:
                     val_ids = []
 
@@ -150,16 +155,17 @@ class CDiscountProcessor:
         return train_df, val_df
 
     def generate_lookup_table(self):
-        self.categories_df = pd.read_csv(self.category_path, index_col="category_id")
+        self.categories_df = pd.read_csv(
+            self.category_path, index_col="category_id")
         self.categories_df["category_idx"] = pd.Series(
             range(len(self.categories_df)), index=self.categories_df.index
         )
-        self.cat2idx, self.idx2cat = self.make_category_tables(self.categories_df)
+        self.cat2idx, self.idx2cat = self.make_category_tables(
+            self.categories_df)
         # Testing
         print(self.cat2idx[1000012755], self.idx2cat[4])
 
     def read_images_load_train_val(self):
-
         self.train_offsets_df = self.read_bson(
             self.train_path, num_records=self.num_train_products, with_categories=True
         )
@@ -258,7 +264,6 @@ class BSONIterator(Iterator):
         shuffle=False,
         seed=None,
     ):
-
         self.file = bson_file
         self.images_df = images_df
         self.offsets_df = offsets_df
@@ -270,16 +275,20 @@ class BSONIterator(Iterator):
         self.image_shape = self.target_size + (3,)
 
         print(
-            "Found %d images belonging to %d classes." % (self.samples, self.num_class)
+            "Found %d images belonging to %d classes." % (
+                self.samples, self.num_class)
         )
 
-        super(BSONIterator, self).__init__(self.samples, batch_size, shuffle, seed)
+        super(BSONIterator, self).__init__(
+            self.samples, batch_size, shuffle, seed)
         self.lock = lock
 
     def _get_batches_of_transformed_samples(self, index_array):
-        batch_x = np.zeros((len(index_array),) + self.image_shape, dtype=K.floatx())
+        batch_x = np.zeros((len(index_array),) +
+                           self.image_shape, dtype=K.floatx())
         if self.with_labels:
-            batch_y = np.zeros((len(batch_x), self.num_class), dtype=K.floatx())
+            batch_y = np.zeros(
+                (len(batch_x), self.num_class), dtype=K.floatx())
 
         for i, j in enumerate(index_array):
             # Protect file and dataframe access with a lock.

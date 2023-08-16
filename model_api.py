@@ -1,28 +1,28 @@
 # Class method implementation for Multiple Deployment str
-import tensorflow as tf
-from tensorflow import keras
-from src.model import ModelMaker
-from infer_class import InferModel
-import fastapi
-from fastapi import FastAPI, Query
-import numpy as np
-import uvicorn
-import cv2
-from starlette.middleware.cors import CORSMiddleware
-from contextlib import contextmanager
-import asyncio
-from tempfile import TemporaryDirectory
-from pathlib import Path
-from PIL import Image
-from src.dataprocessor import BSONIterator, CDiscountProcessor
-from keras.preprocessing.image import ImageDataGenerator
-from keras.preprocessing.image import load_img, img_to_array
 import argparse
-import time
-import pandas as pd
-from configs import config
-
+import asyncio
 import os
+import time
+from contextlib import contextmanager
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+import cv2
+import fastapi
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+import uvicorn
+from fastapi import FastAPI, Query
+from keras.preprocessing.image import ImageDataGenerator, img_to_array, load_img
+from PIL import Image
+from starlette.middleware.cors import CORSMiddleware
+from tensorflow import keras
+
+from configs import config
+from infer_class import InferModel
+from src.dataprocessor import BSONIterator, CDiscountProcessor
+from src.model import ModelMaker
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"  # see issue #152
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
@@ -67,7 +67,8 @@ def predict_class(file: fastapi.UploadFile = fastapi.File(...)):
         print(filepath)
         image = cv2.imread(str(filepath))
         print("Image shape before preprocessing:{}".format(image.shape))
-        image_resized = cv2.resize(image, (180, 180), interpolation=cv2.INTER_AREA)
+        image_resized = cv2.resize(
+            image, (180, 180), interpolation=cv2.INTER_AREA)
 
         x = img_to_array(image_resized)
         x = ImageDataGenerator().random_transform(x)

@@ -1,14 +1,15 @@
-from src.callbacks import CallbacksFormatter
-from src.dataprocessor import CDiscountProcessor
-from src.metrics import precision_m, recall_m, f1_m
-from src.model import ModelMaker
-from configs import config
-import tensorflow as tf
-from tensorflow import keras
 import argparse
+
+import tensorflow as tf
 import wandb
+from tensorflow import keras
 from wandb.keras import WandbCallback
 
+from configs import config
+from src.callbacks import CallbacksFormatter
+from src.dataprocessor import CDiscountProcessor
+from src.metrics import f1_m, precision_m, recall_m
+from src.model import ModelMaker
 
 cdiscount_processor = CDiscountProcessor()
 modelmaker = ModelMaker()
