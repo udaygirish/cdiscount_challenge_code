@@ -1,7 +1,8 @@
+import tensorflow
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
-import tensorflow
+
 from configs import config
 
 
@@ -11,7 +12,8 @@ class ModelMaker:
         self.input_shape = config.model_parameter_dict["target_size"] + (3,)
         print("==" * 10)
         print(
-            "The default input shape of the model will be {}".format(self.input_shape)
+            "The default input shape of the model will be {}".format(
+                self.input_shape)
         )
         self.num_classes = config.model_parameter_dict["num_classes"]
         print(
