@@ -1,12 +1,14 @@
 # Class to define different callbacks and learning rate strategies
-import tensorflow as tf
-import wandb
-from configs import config
-import tensorflow_addons as tfa
-from datetime import datetime
 import os
 import shutil
+from datetime import datetime
+
+import tensorflow as tf
+import tensorflow_addons as tfa
+import wandb
 from wandb.keras import WandbCallback
+
+from configs import config
 
 
 # Custom class to log learning rate to Wandb
@@ -107,7 +109,8 @@ class CallbacksFormatter:
         # Save best checkpoint based on metric monitoring
 
         filepath = (
-            checkpoints_path + "/" + "weights.best_{epoch:02d}-{val_accuracy:.2f}.hdf5"
+            checkpoints_path + "/" +
+            "weights.best_{epoch:02d}-{val_accuracy:.2f}.hdf5"
         )
         checkpoint_best = tf.keras.callbacks.ModelCheckpoint(
             filepath,

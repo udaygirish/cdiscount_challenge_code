@@ -1,7 +1,9 @@
 import tensorflow as tf
 from tensorflow import keras
+
+from src.metrics import f1_m, precision_m, recall_m
 from src.model import ModelMaker
-from src.metrics import precision_m, recall_m, f1_m
+
 
 # Class method implementation for Multiple Deployment strategies
 class InferModel:

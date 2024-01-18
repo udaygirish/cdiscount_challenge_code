@@ -27,8 +27,10 @@ model_parameter_dict = {
     "num_classes": 5270,
     # 'input_shape': (180,180,3)
     "train_from_scratch": 0,  # 0 Means Use pretrained weights 1 Means train from scratch
-    "layer_count_trainable": 20,  # Finetunable layer count if pretrained weights are used.,
-    "model_name": "inception-v3",  # Currently supported = "inception-v3, resnet-101, efficientnet-b7, exception_min"
+    # Finetunable layer count if pretrained weights are used.,
+    "layer_count_trainable": 20,
+    # Currently supported = "inception-v3, resnet-101, efficientnet-b7, exception_min"
+    "model_name": "inception-v3",
     "INIT_LR": 1e-4,
     "MAX_LR": 1e-3,
     "base_learning_rate": 1e-3,
@@ -48,9 +50,11 @@ model_parameter_dict = {
     "es_mode": "auto",
     "es_restore_best_weights": False,
     "optimizer": "adam",  # currently only adam is available
-    "learning_rate_decay_strategy": "polynomial",  # available  = polynomial, exponential, cyclic, no(if given no there wont be any strategy training will be on the base learning rate)
+    # available  = polynomial, exponential, cyclic, no(if given no there wont be any strategy training will be on the base learning rate)
+    "learning_rate_decay_strategy": "polynomial",
     "reduce_lr_init": 0,  # to use reduce lr or not if set to zero not used -> Train Callback
-    "loss": "categorical_crossentropy",  # Focal loss can be also be used for focal loss please mention focalloss
+    # Focal loss can be also be used for focal loss please mention focalloss
+    "loss": "categorical_crossentropy",
     "earlystopping_init": 0,  # Whether to use Early stopping or not if set to 0 not used
     "save_checkpoint_per_epoch": 0,
     "save_best_checkpoint": 1,

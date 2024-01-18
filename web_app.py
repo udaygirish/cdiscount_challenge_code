@@ -29,7 +29,8 @@ if st.button("Predict Class"):
     if image is not None:
         files = {"file": image.getvalue()}
         with st.spinner("API Request Initiated.Waiting for Response"):
-            res = requests.post(("http://localhost:5001/predict/"), files=files)
+            res = requests.post(
+                ("http://localhost:5001/predict/"), files=files)
         st.success("Request completed Successfully")
         text = res.json()
         st.session_state.key = text
@@ -52,4 +53,5 @@ if st.button("Predict Class"):
 
     col4, col5 = st.columns(2)
     col4.metric(label="Response Time", value=text["response_time"])
-    col5.metric(label="Model Inference time", value=text["model_inference_time"])
+    col5.metric(label="Model Inference time",
+                value=text["model_inference_time"])
